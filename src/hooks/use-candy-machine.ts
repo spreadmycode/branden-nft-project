@@ -248,6 +248,14 @@ export default function useCandyMachine() {
     }
   };
 
+  const onMintNFT = async (quantity: number) => {
+    if (quantity == 1) {
+      await onMint();
+    } else if (quantity > 1) {
+      await onMintMultiple(quantity);
+    }
+  }
 
-  return { isSoldOut, mintStartDate, isMinting, nftsData, onMint, onMintMultiple }
+
+  return { isSoldOut, mintStartDate, isMinting, nftsData, onMintNFT }
 }

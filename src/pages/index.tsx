@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { Toaster } from 'react-hot-toast';
 import { useWallet } from "@solana/wallet-adapter-react";
 import useCandyMachine from '../hooks/use-candy-machine';
@@ -9,37 +9,33 @@ import Footer from '../components/footer';
 import useWalletBalance from '../hooks/use-wallet-balance';
 import { shortenAddress } from '../utils/candy-machine';
 import Countdown from 'react-countdown';
-import { RecaptchaButton } from '../components/recaptcha-button';
 
 const Home = () => {
-  const [balance] = useWalletBalance()
+  const [balance] = useWalletBalance();
   const [isActive, setIsActive] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+
   const wallet = useWallet();
 
-  const { isSoldOut, mintStartDate, isMinting, onMint, onMintMultiple, nftsData } = useCandyMachine()
+  const { isSoldOut, mintStartDate, isMinting, onMintNFT, nftsData } = useCandyMachine();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setQuantity(value);
+  }
 
   return (
     <main className="p-5">
       <Toaster />
       <Head>
-        <title>Solana Candy Factory</title>
-        <meta name="description" content="Solana blockchain candy machine app boilerplate on top of Metaplex Candy Machine. NextJS, Tailwind, Anchor, SolanaLabs.React, dev/mainnet automation scripts." />
+        <title>Branden NFT Project</title>
+        <meta name="description" content="You can purchase this NFT if you only have specific collection." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Header />
 
       <div className="flex flex-col justify-center items-center flex-1 space-y-3 mt-20">
-        <img
-          className="rounded-md shadow-lg"
-          src={`/candy.jpeg`}
-          height={200}
-          width={200}
-          alt="Candy Image" />
-
-        <span className="text-gray-800 font-bold text-2xl cursor-default">
-          THIS IS THE BEST CANDY MACHINE EVER
-        </span>
 
         {!wallet.connected && <span
           className="text-gray-800 font-bold text-2xl cursor-default">
@@ -53,52 +49,42 @@ const Home = () => {
         {wallet.connected &&
           <>
             <p className="text-gray-800 font-bold text-lg cursor-default">Balance: {(balance || 0).toLocaleString()} SOL</p>
-            <p className="text-gray-800 font-bold text-lg cursor-default">Available/Minted/Total: {nftsData.itemsRemaining}/{nftsData.itemsRedeemed}/{nftsData.itemsAvailable}</p>
+            <p className="text-gray-800 font-bold text-lg cursor-default">Available / Minted / Total: {nftsData.itemsRemaining} / {nftsData.itemsRedeemed} / {nftsData.itemsAvailable}</p>
           </>
         }
 
-        <div className="flex flex-col justify-start items-start">
-          {wallet.connected &&
-            <RecaptchaButton
-              actionName="mint"
-              disabled={isSoldOut || isMinting || !isActive}
-              onClick={onMint}
-            >
-              {isSoldOut ? (
-                "SOLD OUT"
-              ) : isActive ?
-                <span>MINT {isMinting && 'LOADING...'}</span> :
-                <Countdown
-                  date={mintStartDate}
-                  onMount={({ completed }) => completed && setIsActive(true)}
-                  onComplete={() => setIsActive(true)}
-                  renderer={renderCounter}
-                />
-              }
-            </RecaptchaButton>
-          }
+        <div className="flex flex-col justify-center items-center">
 
           {wallet.connected &&
-            <RecaptchaButton
-              actionName="mint5"
-              disabled={isSoldOut || isMinting || !isActive}
-              onClick={() => onMintMultiple(5)}
-            >
-              {isSoldOut ? (
-                "SOLD OUT"
-              ) : isActive ?
-                <span>MINT 5 {isMinting && 'LOADING...'}</span> :
-                <Countdown
-                  date={mintStartDate}
-                  onMount={({ completed }) => completed && setIsActive(true)}
-                  onComplete={() => setIsActive(true)}
-                  renderer={renderCounter}
-                />
-              }
-            </RecaptchaButton>
+            <>
+              <input 
+                min={1}
+                max={15}
+                type="number" 
+                onChange={(e) => handleChange(e)} 
+                style={{border: 'solid 1px grey', textAlign: 'center', width: '50%', margin: 5}} 
+                value={quantity} />
+              <button
+                disabled={isSoldOut || isMinting || !isActive}
+                onClick={() => onMintNFT(quantity)}
+                className="w-full mt-3 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded"
+              >
+                {isSoldOut ? (
+                  "SOLD OUT"
+                ) : isActive ?
+                  <span>MINT {quantity} {isMinting && 'LOADING...'}</span> :
+                  <Countdown
+                    date={mintStartDate}
+                    onMount={({ completed }) => completed && setIsActive(true)}
+                    onComplete={() => setIsActive(true)}
+                    renderer={renderCounter}
+                  />
+                }
+              </button>
+            </>
           }
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </main>
   );
