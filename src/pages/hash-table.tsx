@@ -19,7 +19,7 @@ const HashTable: React.FC = () => {
       <Head>
         <title>Solana Candy Factory: Hash Table</title>
         <meta name="description" content="Get the Hash Table for listing your Candy Machine NFT Collection on major marketplaces" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icon.png" />
       </Head>
 
       <Header />

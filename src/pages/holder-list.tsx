@@ -18,7 +18,7 @@ const HolderList: React.FC = () => {
       <Head>
         <title>Solana Candy Factory: Holder List</title>
         <meta name="description" content="Get the Holder List Addresses for a specific Candy Machine NFT Collection" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icon.png" />
       </Head>
 
       <Header />

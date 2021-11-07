@@ -7,7 +7,7 @@ import useWalletBalance from "./use-wallet-balance";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { sleep } from "../utils/utility";
 
-const MINT_PRICE_SOL = Number(process.env.NEXT_MINT_PRICE_SOL)
+const MINT_PRICE_SOL = Number(process.env.NEXT_MINT_PRICE_SOL);
 
 const treasury = new anchor.web3.PublicKey(
   process.env.NEXT_PUBLIC_TREASURY_ADDRESS!
@@ -27,7 +27,7 @@ const connection = new anchor.web3.Connection(rpcHost);
 const txTimeout = 30000;
 
 export default function useCandyMachine() {
-  const [, setBalance] = useWalletBalance()
+  const [, setBalance] = useWalletBalance();
   const [candyMachine, setCandyMachine] = useState<CandyMachine>();
   const wallet = useWallet();
   const [nftsData, setNftsData] = useState<any>({} = {
@@ -121,9 +121,9 @@ export default function useCandyMachine() {
         );
 
         if (!status?.err) {
-          toast.success("Congratulations! Mint succeeded! Check the 'My Arts' page :)")
+          toast.success("Congratulations! Mint succeeded! Check the 'My Arts' page :)");
         } else {
-          toast.error("Mint failed! Please try again!")
+          toast.error("Mint failed! Please try again!");
         }
       }
     } catch (error: any) {
@@ -179,7 +179,7 @@ export default function useCandyMachine() {
           quantity
         );
 
-        const promiseArray = []
+        const promiseArray = [];
         
 
         for (let index = 0; index < signedTransactions.length; index++) {
@@ -190,26 +190,26 @@ export default function useCandyMachine() {
             connection,
             "singleGossip",
             true
-          ))
+          ));
         }
 
-        const allTransactionsResult = await Promise.all(promiseArray)
+        const allTransactionsResult = await Promise.all(promiseArray);
         let totalSuccess = 0;
         let totalFailure = 0;
 
         for (let index = 0; index < allTransactionsResult.length; index++) {
           const transactionStatus = allTransactionsResult[index];
           if (!transactionStatus?.err) {
-            totalSuccess += 1
+            totalSuccess += 1;
           } else {
-            totalFailure += 1
+            totalFailure += 1;
           }
         }
 
         let newBalance = await connection.getBalance(wallet?.publicKey) / LAMPORTS_PER_SOL;
 
         while(newBalance > futureBalance) {
-          await sleep(1000)
+          await sleep(1000);
           newBalance = await connection.getBalance(wallet?.publicKey) / LAMPORTS_PER_SOL;
         }
 
@@ -257,5 +257,5 @@ export default function useCandyMachine() {
   }
 
 
-  return { isSoldOut, mintStartDate, isMinting, nftsData, onMintNFT }
+  return { isSoldOut, mintStartDate, isMinting, nftsData, onMintNFT };
 }

@@ -18,7 +18,7 @@ const FindCandyMachineConfigs: React.FC = () => {
       <Head>
         <title>Solana Candy Factory: Find Candy Machine Configs</title>
         <meta name="description" content="Find Candy Machine Configs" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icon.png" />
       </Head>
 
       <Header />

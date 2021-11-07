@@ -19,7 +19,7 @@ const MyNfts = () => {
         <Head>
           <title>Solana Candy Factory - My NFTs</title>
           <meta name="description" content="Solana blockchain candy machine app boilerplate on top of Metaplex Candy Machine. NextJS, Tailwind, Anchor, SolanaLabs.React, dev/mainnet automation scripts." />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/icon.png" />
         </Head>
 
         <Header />

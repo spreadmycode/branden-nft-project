@@ -23,12 +23,12 @@ const useWalletNfts = () => {
         return;
       }
 
-      setIsLoading(true)
+      setIsLoading(true);
 
       const nftsForOwner = await getNftsForOwner(connection, wallet.publicKey);
 
-     setNfts(nftsForOwner as any)
-     setIsLoading(false)
+      setNfts(nftsForOwner as any);
+      setIsLoading(false);
     })();
   }, [wallet])
 
