@@ -29,7 +29,11 @@ const Home = () => {
 
   const handleMintAction = async () => {
     if (isPossibleMint) {
-      await onMintNFT(quantity);
+      let mintCount = quantity;
+      if (quantity >= possibleNFTCount) {
+        mintCount = possibleNFTCount;
+      }
+      await onMintNFT(mintCount);
     } else {
       toast.error("Mint failed! You have no 'Crazy Pirate NFT'!");
     }
