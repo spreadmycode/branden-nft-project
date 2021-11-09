@@ -20,7 +20,7 @@ const Home = () => {
   const wallet = useWallet();
 
   const { isSoldOut, mintStartDate, isMinting, onMintNFT, nftsData } = useCandyMachine();
-  const [isLoading, isPossibleMint] = usePresale();
+  const [isLoading, isPossibleMint, currentNFTCount, possibleNFTCount, filterNFTCount] = usePresale();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -61,6 +61,9 @@ const Home = () => {
           <>
             <p className="text-gray-800 font-bold text-lg cursor-default">Balance: {(balance || 0).toLocaleString()} SOL</p>
             <p className="text-gray-800 font-bold text-lg cursor-default">Available / Minted / Total: {nftsData.itemsRemaining} / {nftsData.itemsRedeemed} / {nftsData.itemsAvailable}</p>
+            <p className="text-gray-800 font-bold text-lg cursor-default">You have {filterNFTCount} CrazyPirate NFT now.</p>
+            <p className="text-gray-800 font-bold text-lg cursor-default">You have already {currentNFTCount} NFT now.</p>
+            <p className="text-gray-800 font-bold text-lg cursor-default">You can purchase {possibleNFTCount} NFT from now.</p>
           </>
         }
 
