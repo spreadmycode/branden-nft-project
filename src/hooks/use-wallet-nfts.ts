@@ -66,7 +66,7 @@ const useWalletNfts = () => {
         }
       }
 
-      setNfts(nftsForOwner as any);
+      setNfts(nfts);
       setIsLoading(false);
     })();
   }, [wallet])
