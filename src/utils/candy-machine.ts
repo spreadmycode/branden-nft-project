@@ -258,6 +258,7 @@ export async function getNftsForOwner(connection: anchor.web3.Connection, ownerA
         const metadata: any = new Metadata(ownerAddress.toString(), accountInfo.value);
         const { data }: any = await axios.get(metadata.data.data.uri);
   
+        data.mint = tokenAccount.account.data.parsed.info.mint;
         const entireData = { ...data, id: Number(data.name.replace( /^\D+/g, '').split(' - ')[0]) };
   
         allTokens.push({ ...entireData });

@@ -2,6 +2,8 @@ import '../styles/globals.css'
 import { useMemo } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { ApolloProvider } from '@apollo/client'
+import { useApollo } from '../apollo/client'
 
 let WALLETS: any = {
   getPhantomWallet: () => ({ name: 'Phantom' }),
@@ -27,6 +29,8 @@ const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK as WalletAdapterNetwork;
 
 const App = ({ Component, pageProps }: any) => {
   const endpoint = useMemo(() => 'https://solana-api.projectserum.com', []);
+
+  const apolloClient = useApollo(pageProps.initialApolloState);
 
   const wallets = useMemo(
     () => [
@@ -54,7 +58,9 @@ const App = ({ Component, pageProps }: any) => {
         <WalletProvider wallets={wallets} autoConnect>
           <WalletModalProvider>
             <WalletBalanceProvider>
-              <Component  {...pageProps} />
+              <ApolloProvider client={apolloClient}>
+                <Component  {...pageProps} />
+              </ApolloProvider>
             </WalletBalanceProvider>
           </WalletModalProvider>
         </WalletProvider>
